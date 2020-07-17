@@ -1,0 +1,25 @@
+<div class="grid grid-cols-12 px-2">
+  <div class="col-span-12 md:col-span-8 md:col-start-3 lg:col-span-6 lg:col-start-4">
+    <form [formGroup]="searchForm" class="mb-4">
+      <p class="text-center text-xl mb-2">Ingrese el nombre de una provincia <br> para descubrir su posición</p>
+      <input (keyup)="onKeydown()" formControlName="province" type="text" name="province" class="border w-full rounded-lg py-2 px-4 outline-none shadow" autocomplete="off" placeholder="Provincia...">
+    </form>
+
+    <div *ngIf="searchForm.dirty" class="rounded mb-4 border border-gray-400 bg-white shadow">
+      <div *ngIf="items.length === 0 || searchForm.value.province.length === 0" class="py-2 px-4 text-sm text-center italic">
+        No se encontraron provincias que coincidan con <strong>"{{searchForm.value.province}}"</strong>
+      </div>
+      <div *ngIf="items.length > 0 && searchForm.value.province.length > 0" class="divide-y divide-gray-400">
+        <div *ngFor="let item of items; index as i" class="py-2 px-4">
+          <strong class="block">{{item.nombre}}</strong>
+          <a [attr.href]="getMapUrl(item.centroide)" target="_blank" class="block underline">
+            Latitud: {{item.centroide.lat}} Longitud: {{item.centroide.lon}}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <app-logout></app-logout>
+
+  </div>
+</div>
